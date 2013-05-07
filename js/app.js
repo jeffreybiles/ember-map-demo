@@ -37,7 +37,14 @@ App.MarkerListItemView = Em.View.extend({
 	}.property('App.markers.selection'),
 	click: function () {
 		App.markers.set('selection', this.get('content'));
-	}
+	},
+  editMode: false,
+  doubleClick: function(evt) {
+     this.set('editMode', true);
+   },
+   focusOut: function(evt) {
+     this.set('editMode', false);
+   }
 });
 
 App.markers = Em.ArrayProxy.create({
@@ -52,12 +59,15 @@ App.RemoveButtonView = Ember.View.extend({
 	}
 });
 
+
 App.MarkerDetailView = Ember.View.extend({
-	contentBinding: 'App.markers.selection'
+
 });
 
 App.Marker = Ember.Object.extend({
 	latLng: null,
+  name: null,
+  address: null,
 	latitude: function () {return this.latLng.lat()}.property('latLng'),
 	longitude: function () {return this.latLng.lng()}.property('latLng'),
 	removeFromMap: function () {
@@ -94,7 +104,8 @@ App.mapController = Em.Object.create({
 });
 
 App.ListView = Em.View.extend({
-	contentBinding: "App.markers.content"
+	contentBinding: "App.markers.content",
+  contentBinding: 'App.markers.selection'
 });
 
 App.ready = function () {

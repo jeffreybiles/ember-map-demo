@@ -31,6 +31,8 @@
   <tr>
   <td>{{selection.latitude}}</td>
   <td>{{selection.longitude}}</td>
+  <td>{{selection.name}}</td>
+  <td>{{selection.address}}</td>
   <td>
   {{#if selection}}
   {{#view App.RemoveButtonView contentBinding="selection"}}Remove{{/view}}
@@ -42,11 +44,18 @@
   <hr>
   {{#view App.ListView}}
   <table>
-  <tr><th>Latitude</th><th>Longitude</th></tr>
+  <tr><th>Name</th><th>Address</th><th>Latitude</th><th>Longitude</th></tr>
     {{#each content}}
-    {{#view App.MarkerListItemView contentBinding="this"}}
-    <td>{{latitude}}</td>
-    <td>{{longitude}}</td>
+    {{#view App.MarkerListItemView contentBinding="this" editModeBinding="editMode"}}
+      {{#if view.editMode}}
+      <td>{{view Ember.TextField valueBinding="name"}}</td>
+      <td>{{view Ember.TextField valueBinding="address"}}</td>
+      {{else}}
+      <td>{{name}}</td>
+      <td>{{address}}</td>
+      {{/if}}
+      <td>{{latitude}}</td>
+      <td>{{longitude}}</td>
     {{/view}}
     {{/each}}
   </table>
